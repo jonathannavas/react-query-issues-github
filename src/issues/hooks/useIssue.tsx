@@ -10,11 +10,19 @@ export const useIssue = (issueNumber: number) => {
     retry: false,
   })
 
+  // const commentsQuery = useQuery({
+  //   queryKey: ['issues', issueNumber, 'comments'],
+  //   queryFn: () => getIssueComments(issueNumber),
+  //   staleTime: 1000 * 60,
+  //   retry: false,
+  // })
+
   const commentsQuery = useQuery({
-    queryKey: ['issues', issueNumber, 'comments'],
-    queryFn: () => getIssueComments(issueNumber),
+    queryKey: ['issues', issueQuery.data?.number, 'comments'],
+    queryFn: () => getIssueComments(issueQuery.data!.number),
     staleTime: 1000 * 60,
     retry: false,
+    enabled: issueQuery.data !== undefined,
   })
 
   return {
