@@ -1,18 +1,38 @@
-import { GithubIssue } from '../interfaces/issue'
+import { GithubIssue, State } from '../interfaces/issue'
 import { IssueItem } from './IssueItem'
 
 interface Props {
   issues: GithubIssue[]
+  handleStateChange: (state: State) => void
+  currentState: State
 }
 
-export const IssueList = ({ issues }: Props) => {
+export const IssueList = ({
+  issues,
+  handleStateChange,
+  currentState,
+}: Props) => {
   return (
     <>
-      {/* Botones de All, Open, Closed */}
       <div className="flex gap-4">
-        <button className="btn active">All</button>
-        <button className="btn">Open</button>
-        <button className="btn">Closed</button>
+        <button
+          onClick={() => handleStateChange(State.All)}
+          className={`btn ${currentState === State.All ? 'active' : ''}`}
+        >
+          All
+        </button>
+        <button
+          onClick={() => handleStateChange(State.Open)}
+          className={`btn ${currentState === State.Open ? 'active' : ''}`}
+        >
+          Open
+        </button>
+        <button
+          onClick={() => handleStateChange(State.Close)}
+          className={`btn ${currentState === State.Close ? 'active' : ''}`}
+        >
+          Closed
+        </button>
       </div>
 
       {/* Lista de issues */}
