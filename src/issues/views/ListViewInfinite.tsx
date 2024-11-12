@@ -8,12 +8,12 @@ import { State } from '../interfaces/issue'
 export const ListViewInfinite = () => {
   const [state, setState] = useState<State>(State.All)
   const [selectedLabels, setSelectedLabels] = useState<string[]>([])
-  const { issuesQuery, page } = useIssuesInfinite({
+  const { issuesQuery } = useIssuesInfinite({
     state,
     selectedLabels,
   })
 
-  const issues = issuesQuery.data ?? []
+  const issues = issuesQuery.data?.pages.flat() ?? []
   const handleStateChange = (state: State) => {
     setState(state)
   }
@@ -37,8 +37,14 @@ export const ListViewInfinite = () => {
               handleStateChange={handleStateChange}
               currentState={state}
             />
-            <button className="p-2 bg-blue-500 rounded-md hover:bg-blue-500 transition-all">
-              Cargar más ....
+            <button
+              className="p-2 bg-blue-500 rounded-md hover:bg-blue-500 transition-all"
+              onClick={() => issuesQuery.fetchNextPage()}
+              // onClick={() => console.log('me llamo')}
+            >
+              {issuesQuery.isFetchingNextPage
+                ? 'Cargando....'
+                : ' Cargar más .... '}
             </button>
           </div>
         )}
